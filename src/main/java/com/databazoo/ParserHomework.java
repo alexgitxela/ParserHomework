@@ -17,9 +17,21 @@ public class ParserHomework {
         return parserService.parse(config);
     }
 
-    private ParserConfig parseArgs(String[] args) {
+    ParserConfig parseArgs(String[] args) {
         ParserConfig config = new ParserConfig();
-        // todo: parseArgs into config
+        for (String arg : args) {
+            if (arg.startsWith("--duration=")) {
+                config.setDuration(arg.substring("--duration=".length()));
+
+            } else if (arg.startsWith("--startDate=")) {
+                //todo
+                config.setStartDate(arg.substring("--startDate=".length()));
+
+            } else if (arg.startsWith("--threshold=")) {
+                String substring = arg.substring("--threshold=".length());
+                config.setThreshold(Integer.parseInt(substring));
+            }
+        }
         return config;
     }
 
