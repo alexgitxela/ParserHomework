@@ -1,6 +1,4 @@
 
--- todo
-
 --
 -- Table structure for table `loglines`
 --

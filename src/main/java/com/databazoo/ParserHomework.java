@@ -9,6 +9,13 @@ import java.util.Date;
 
 public class ParserHomework {
 
+    private static final String PARAM_DURATION = "--duration=";
+    private static final String PARAM_START_DATE = "--startDate=";
+    private static final String PARAM_THRESHOLD = "--threshold=";
+
+    // 2017-01-01.13:00:00
+    private static final SimpleDateFormat FORMAT_START_DATE = new SimpleDateFormat("yyyy-MM-dd.HH:mm:ss");
+
     public static void main(String[] args) {
         ParserHomework parserHomework = new ParserHomework();
         ParserConfig config = parserHomework.parseArgs(args);
@@ -21,28 +28,23 @@ public class ParserHomework {
         return parserService.parse(config);
     }
 
-    // 2017-01-01.13:00:00
-    private static final SimpleDateFormat FORMAT_START_DATE = new SimpleDateFormat("yyyy-MM-dd.HH:mm:ss");
-
-
     ParserConfig parseArgs(String[] args) {
         ParserConfig config = new ParserConfig();
         for (String arg : args) {
-            if (arg.startsWith("--duration=")) {
-                config.setDuration(arg.substring("--duration=".length()));
+            if (arg.startsWith(PARAM_DURATION)) {
+                config.setDuration(arg.substring(PARAM_DURATION.length()));
 
-            } else if (arg.startsWith("--startDate=")) {
-                // todo
-                config.setStartDate(arg.substring("--startDate=".length()));
+            } else if (arg.startsWith(PARAM_START_DATE)) {
                 try {
-                    Date startDateTime = FORMAT_START_DATE.parse(arg.substring("--startDate=".length()));
-                    System.out.println(startDateTime);
+                    Date startDateTime = FORMAT_START_DATE.parse(arg.substring(PARAM_START_DATE.length()));
+                    // TODO: set Date type here
+                    config.setStartDate(arg.substring(PARAM_START_DATE.length()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
 
-            } else if (arg.startsWith("--threshold=")) {
-                String substring = arg.substring("--threshold=".length());
+            } else if (arg.startsWith(PARAM_THRESHOLD)) {
+                String substring = arg.substring(PARAM_THRESHOLD.length());
                 config.setThreshold(Integer.parseInt(substring));
             }
         }

@@ -1,8 +1,9 @@
 package com.databazoo;
 
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class ParserHomeworkTest {
 
@@ -19,8 +20,8 @@ public class ParserHomeworkTest {
         ParserHomework parserHomework = new ParserHomework();
         ParserConfig config = parserHomework.parseArgs(args);
 
-        Assert.assertEquals("daily", config.getDuration());
-        Assert.assertEquals("2017-01-01.13:00:00", config.getStartDate());
-        Assert.assertEquals(250, config.getThreshold());
+        assertEquals("daily", config.getDuration());
+        assertEquals("2017-01-01.13:00:00", config.getStartDate());
+        assertEquals(250, config.getThreshold());
     }
 }

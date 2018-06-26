@@ -2,7 +2,7 @@ package com.databazoo;
 
 public class ParserConfig {
     private String fileName;
-    private String duration;
+    private String duration;    // TODO: use enum instead of String
     private String startDate;
     private int threshold;
 

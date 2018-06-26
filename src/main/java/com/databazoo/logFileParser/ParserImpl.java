@@ -24,12 +24,16 @@ public class ParserImpl implements IParser {
     public ParserResult parse(ParserConfig config) {
         ParserResult result = new ParserResult();
         clearLogTable();
-        parseLogFile(config.getFileName());
+        parseLogFile(config.getFileName(), result);
+        checkThreshold(config, result);
         return result;
     }
 
+    private void checkThreshold(ParserConfig config, ParserResult result) {
+        // TODO: select IPs by time and threshold. Values over threshold must be reported into a new table and ParseResult.
+    }
+
     private void clearLogTable() {
-        // todo
         try {
             String sql = "TRUNCATE " + LOG_TABLE_NAME;
             PreparedStatement statement = DbFactory.getConnection().prepareStatement(sql);
@@ -39,12 +43,12 @@ public class ParserImpl implements IParser {
         }
     }
 
-    private void parseLogFile(String fileName) {
+    private void parseLogFile(String fileName, ParserResult result) {
         InputStream input;
         if (fileName == null) {
             input = this.getClass().getResourceAsStream("/access.log");
         } else {
-            input = null;
+            input = null;   // TODO: read real file (FileInputStream)
         }
 
         try {
