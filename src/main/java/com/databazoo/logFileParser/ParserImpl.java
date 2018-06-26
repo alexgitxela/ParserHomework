@@ -19,7 +19,7 @@ public class ParserImpl implements IParser {
     // 2017-01-01 00:00:11.763
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-    private String logTableName = "loglines";
+    private static final String LOG_TABLE_NAME = "loglines";
 
     public ParserResult parse(ParserConfig config) {
         ParserResult result = new ParserResult();
@@ -31,11 +31,11 @@ public class ParserImpl implements IParser {
     private void clearLogTable() {
         // todo
         try {
-            String sql = "TRUNCATE " + logTableName;
+            String sql = "TRUNCATE " + LOG_TABLE_NAME;
             PreparedStatement statement = DbFactory.getConnection().prepareStatement(sql);
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Could not truncate " + logTableName + e.getMessage());
+            System.out.println("Could not truncate " + LOG_TABLE_NAME + e.getMessage());
         }
     }
 
@@ -68,7 +68,7 @@ public class ParserImpl implements IParser {
         String requestIP = strings[1];
         System.out.println("time: " + requestTime + " IP: " + requestIP);
 
-        String sql = "INSERT INTO " + logTableName + " (requestTime, requestIp) VALUES (?, ?)";
+        String sql = "INSERT INTO " + LOG_TABLE_NAME + " (requestTime, requestIp) VALUES (?, ?)";
         PreparedStatement statement = DbFactory.getConnection().prepareStatement(sql);
         statement.setLong(1, requestTime.getTime());
         statement.setString(2, requestIP);
