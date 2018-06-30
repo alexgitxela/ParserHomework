@@ -12,6 +12,7 @@ public class ParserHomework {
     private static final String PARAM_DURATION = "--duration=";
     private static final String PARAM_START_DATE = "--startDate=";
     private static final String PARAM_THRESHOLD = "--threshold=";
+    private static final String PARAM_FILENAME = "--accesslog=";
 
     // 2017-01-01.13:00:00
     private static final SimpleDateFormat FORMAT_START_DATE = new SimpleDateFormat("yyyy-MM-dd.HH:mm:ss");
@@ -46,6 +47,10 @@ public class ParserHomework {
             } else if (arg.startsWith(PARAM_THRESHOLD)) {
                 String substring = arg.substring(PARAM_THRESHOLD.length());
                 config.setThreshold(Integer.parseInt(substring));
+
+            } else if (arg.startsWith(PARAM_FILENAME)) {
+                String substring = arg.substring(PARAM_FILENAME.length());
+                config.setFileName(substring);
             }
         }
         return config;

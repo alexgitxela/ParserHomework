@@ -4,10 +4,7 @@ import com.databazoo.DbFactory;
 import com.databazoo.ParserConfig;
 import com.databazoo.ParserResult;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -25,12 +22,32 @@ public class ParserImpl implements IParser {
         ParserResult result = new ParserResult();
         clearLogTable();
         parseLogFile(config.getFileName(), result);
-        checkThreshold(config, result);
+        //checkThreshold(config, result);
         return result;
     }
 
     private void checkThreshold(ParserConfig config, ParserResult result) {
         // TODO: select IPs by time and threshold. Values over threshold must be reported into a new table and ParseResult.
+
+        // test
+        final SimpleDateFormat FORMAT_START_DATE = new SimpleDateFormat("yyyy-MM-dd.HH:mm:ss");
+        String timeStamp = "2017-01-01.13:00:00";
+        Date stopDateInterval = null;
+        Date startDateInterval = null;
+        try {
+            startDateInterval = FORMAT_START_DATE.parse(timeStamp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(startDateInterval);
+        timeStamp = "2017-01-01.14:00:00";
+        try {
+            stopDateInterval = FORMAT_START_DATE.parse(timeStamp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(stopDateInterval);
+        // SELECT requestIp, COUNT(*) FROM `loglines` WHERE (requestTime >= 1483225211763 AND requestTime <= 1483279200000) GROUP BY requestIp ORDER BY COUNT(*) DESC
     }
 
     private void clearLogTable() {
@@ -48,7 +65,11 @@ public class ParserImpl implements IParser {
         if (fileName == null) {
             input = this.getClass().getResourceAsStream("/access.log");
         } else {
-            input = null;   // TODO: read real file (FileInputStream)
+            try {
+                input = new FileInputStream(fileName);
+            } catch (FileNotFoundException e) {
+                throw new IllegalArgumentException("File not found WTF", e);
+            }
         }
 
         try {
@@ -78,4 +99,5 @@ public class ParserImpl implements IParser {
         statement.setString(2, requestIP);
         statement.executeUpdate();
     }
+
 }
