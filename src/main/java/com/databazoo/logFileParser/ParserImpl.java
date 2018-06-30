@@ -3,9 +3,11 @@ package com.databazoo.logFileParser;
 import com.databazoo.DbFactory;
 import com.databazoo.ParserConfig;
 import com.databazoo.ParserResult;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.io.*;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,32 +24,39 @@ public class ParserImpl implements IParser {
         ParserResult result = new ParserResult();
         clearLogTable();
         parseLogFile(config.getFileName(), result);
-        //checkThreshold(config, result);
+        checkThreshold(config, result);
         return result;
     }
 
     private void checkThreshold(ParserConfig config, ParserResult result) {
         // TODO: select IPs by time and threshold. Values over threshold must be reported into a new table and ParseResult.
 
-        // test
-        final SimpleDateFormat FORMAT_START_DATE = new SimpleDateFormat("yyyy-MM-dd.HH:mm:ss");
-        String timeStamp = "2017-01-01.13:00:00";
-        Date stopDateInterval = null;
-        Date startDateInterval = null;
+        Date timeFrom = config.getStartDate();
+        Date timeTo = (Date) config.getStartDate().clone();
+        timeTo = DateUtils.addHours(timeTo, config.getDuration().getHours());
+
+        String sql = "SELECT requestIp, COUNT(*) AS CNT \n" +
+                "         FROM `loglines` \n" +
+                "         WHERE (requestTime >= ? AND requestTime <= ?) \n" +
+                "         GROUP BY requestIp \n" +
+                "         HAVING CNT > ?\n" +
+                "         ORDER BY CNT DESC";
+
         try {
-            startDateInterval = FORMAT_START_DATE.parse(timeStamp);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            PreparedStatement statement = DbFactory.getConnection().prepareStatement(sql);
+            statement.setLong(1, timeFrom.getTime());
+            statement.setLong(2, timeTo.getTime());
+            statement.setInt(3, config.getThreshold());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString(1));
+                System.out.println(resultSet.getString(2));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Could not read: " + e.getMessage());
         }
-        System.out.println(startDateInterval);
-        timeStamp = "2017-01-01.14:00:00";
-        try {
-            stopDateInterval = FORMAT_START_DATE.parse(timeStamp);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println(stopDateInterval);
-        // SELECT requestIp, COUNT(*) FROM `loglines` WHERE (requestTime >= 1483225211763 AND requestTime <= 1483279200000) GROUP BY requestIp ORDER BY COUNT(*) DESC
     }
 
     private void clearLogTable() {
@@ -91,7 +100,7 @@ public class ParserImpl implements IParser {
         String[] strings = line.split("\\|");
         Date requestTime = FORMAT.parse(strings[0]);
         String requestIP = strings[1];
-        System.out.println("time: " + requestTime + " IP: " + requestIP);
+        //System.out.println("time: " + requestTime + " IP: " + requestIP);
 
         String sql = "INSERT INTO " + LOG_TABLE_NAME + " (requestTime, requestIp) VALUES (?, ?)";
         PreparedStatement statement = DbFactory.getConnection().prepareStatement(sql);
