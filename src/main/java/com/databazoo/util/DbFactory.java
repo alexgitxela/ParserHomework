@@ -1,4 +1,4 @@
-package com.databazoo;
+package com.databazoo.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

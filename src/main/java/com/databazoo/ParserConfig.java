@@ -1,5 +1,8 @@
 package com.databazoo;
 
+import com.databazoo.util.Duration;
+import com.databazoo.util.OutputType;
+
 import java.util.Date;
 
 public class ParserConfig {

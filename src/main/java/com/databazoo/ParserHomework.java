@@ -2,6 +2,7 @@ package com.databazoo;
 
 import com.databazoo.logFileParser.IParser;
 import com.databazoo.logFileParser.ParserImpl;
+import com.databazoo.util.Duration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

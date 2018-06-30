@@ -1,4 +1,4 @@
-package com.databazoo;
+package com.databazoo.util;
 
 public enum OutputType {
     file,

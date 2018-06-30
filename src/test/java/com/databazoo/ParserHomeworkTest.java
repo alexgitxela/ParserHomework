@@ -1,5 +1,6 @@
 package com.databazoo;
 
+import com.databazoo.util.Duration;
 import org.junit.Ignore;
 import org.junit.Test;
 

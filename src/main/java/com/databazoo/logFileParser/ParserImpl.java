@@ -1,8 +1,8 @@
 package com.databazoo.logFileParser;
 
-import com.databazoo.DbFactory;
 import com.databazoo.ParserConfig;
 import com.databazoo.ParserResult;
+import com.databazoo.util.DbFactory;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.io.*;
