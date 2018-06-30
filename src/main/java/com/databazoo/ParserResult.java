@@ -1,10 +1,10 @@
 package com.databazoo;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ParserResult {
-    private final Map<String, Integer> badIp = new HashMap<>();
+    private final Map<String, Integer> badIp = new LinkedHashMap<>();
 
     public Map<String, Integer> getBadIp() {
         return badIp;

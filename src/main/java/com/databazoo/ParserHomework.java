@@ -21,6 +21,28 @@ public class ParserHomework {
         ParserHomework parserHomework = new ParserHomework();
         ParserConfig config = parserHomework.parseArgs(args);
         ParserResult result = parserHomework.parse(config);
+        parserHomework.output(result, config);
+    }
+
+    private void output(ParserResult result, ParserConfig config) {
+        switch (config.getOutputType()) {
+            case file:  // TODO
+                break;
+            case console:
+                for (String key : result.getBadIp().keySet()){
+                    int value = result.getBadIp().get(key);
+                    System.out.println(key + ": " + value);
+                }
+
+//                for (Map.Entry<String, Integer> badIpLine : result.getBadIp().entrySet()) {
+//                    System.out.println(badIpLine.getKey() + ": " + badIpLine.getValue());
+//                }
+                break;
+            case database:  // TODO
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown output type");
+        }
     }
 
     private IParser parserService = new ParserImpl();

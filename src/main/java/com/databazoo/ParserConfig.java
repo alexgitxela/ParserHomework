@@ -5,9 +5,9 @@ import java.util.Date;
 public class ParserConfig {
     private String fileName;
     private Duration duration;
-
     private Date startDate;
     private int threshold;
+    private OutputType outputType = OutputType.console;
 
     public String getFileName() {
         return fileName;
@@ -39,5 +39,13 @@ public class ParserConfig {
 
     public int getThreshold() {
         return threshold;
+    }
+
+    public OutputType getOutputType() {
+        return outputType;
+    }
+
+    public void setOutputType(OutputType outputType) {
+        this.outputType = outputType;
     }
 }
