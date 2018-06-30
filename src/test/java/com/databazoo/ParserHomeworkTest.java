@@ -20,8 +20,30 @@ public class ParserHomeworkTest {
         ParserHomework parserHomework = new ParserHomework();
         ParserConfig config = parserHomework.parseArgs(args);
 
-        assertEquals("daily", config.getDuration());
-        assertEquals("2017-01-01.13:00:00", config.getStartDate());
+        assertEquals(Duration.daily, config.getDuration());
+        assertEquals("Sun Jan 01 13:00:00 CET 2017", config.getStartDate().toString());
         assertEquals(250, config.getThreshold());
+    }
+
+    @Test
+    public void parseDurationValid() {
+        String[] args = {"--startDate=2017-01-01.13:00:00", "--duration=daily", "--threshold=250"};
+
+        ParserHomework parserHomework = new ParserHomework();
+
+        ParserConfig config = parserHomework.parseArgs(args);
+        assertEquals(Duration.daily, config.getDuration());
+
+        config = parserHomework.parseArgs(new String[]{"--duration=hourly"});
+        assertEquals(Duration.hourly, config.getDuration());
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void parseDurationInvalid() {
+        String[] args = {"--startDate=2017-01-01.13:00:00", "--duration=weekly", "--threshold=250"};
+
+        ParserHomework parserHomework = new ParserHomework();
+        parserHomework.parseArgs(args);
+
     }
 }

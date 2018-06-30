@@ -1,9 +1,12 @@
 package com.databazoo;
 
+import java.util.Date;
+
 public class ParserConfig {
     private String fileName;
-    private String duration;    // TODO: use enum instead of String
-    private String startDate;
+    private Duration duration;
+
+    private Date startDate;
     private int threshold;
 
     public String getFileName() {
@@ -14,19 +17,19 @@ public class ParserConfig {
         this.fileName = fileName;
     }
 
-    public String getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Duration duration) {
         this.duration = duration;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 

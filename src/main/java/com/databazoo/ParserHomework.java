@@ -32,13 +32,13 @@ public class ParserHomework {
         ParserConfig config = new ParserConfig();
         for (String arg : args) {
             if (arg.startsWith(PARAM_DURATION)) {
-                config.setDuration(arg.substring(PARAM_DURATION.length()));
+                String stringDuration = arg.substring(PARAM_DURATION.length());
+                config.setDuration(Duration.valueOf(stringDuration));
 
             } else if (arg.startsWith(PARAM_START_DATE)) {
                 try {
                     Date startDateTime = FORMAT_START_DATE.parse(arg.substring(PARAM_START_DATE.length()));
-                    // TODO: set Date type here
-                    config.setStartDate(arg.substring(PARAM_START_DATE.length()));
+                    config.setStartDate(startDateTime);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
