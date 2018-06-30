@@ -29,7 +29,6 @@ public class ParserImpl implements IParser {
     }
 
     private void checkThreshold(ParserConfig config, ParserResult result) {
-        // TODO: select IPs by time and threshold. Values over threshold must be reported into a new table and ParseResult.
 
         Date timeFrom = config.getStartDate();
         Date timeTo = (Date) config.getStartDate().clone();
@@ -50,8 +49,7 @@ public class ParserImpl implements IParser {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                System.out.println(resultSet.getString(1));
-                System.out.println(resultSet.getString(2));
+                result.addBadIp(resultSet.getString(1), resultSet.getInt(2));
             }
 
         } catch (SQLException e) {
