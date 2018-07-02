@@ -10,7 +10,9 @@ public class ParserConfig {
     private Duration duration;
     private Date startDate;
     private int threshold;
-    private OutputType outputType = OutputType.console;
+    //private OutputType outputType = OutputType.console;
+    //private OutputType outputType = OutputType.database;
+    private OutputType outputType = OutputType.file;
 
     public String getFileName() {
         return fileName;
