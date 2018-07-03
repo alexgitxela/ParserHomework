@@ -24,7 +24,7 @@ public class ParserHomework {
     private static final SimpleDateFormat FORMAT_START_DATE = new SimpleDateFormat("yyyy-MM-dd.HH:mm:ss");
 
     private static final String BAD_IP_TABLE_NAME = "badiplist";
-    private static final String BAD_IP_FILE_NAME = "D://badiplist.txt";
+    private static final String BAD_IP_FILE_NAME = "D://badiplist.txt"; // TODO: use relative path. Or even better, move to config.
     private static final String DELIMITER = "\t";
 
     public static void main(String[] args) {
@@ -47,7 +47,7 @@ public class ParserHomework {
                         output.write(buffer, 0, buffer.length);
                     }
                 } catch (IOException e) {
-                    System.out.println(BAD_IP_FILE_NAME + ": a write error has occurred. " + e.getMessage());
+                    System.out.println(BAD_IP_FILE_NAME + ": a write error has occurred. " + e.getMessage());   // TODO: report exception properly (Illegal State)
                 }
                 break;
             case console:
@@ -65,7 +65,7 @@ public class ParserHomework {
                     PreparedStatement statement = DbFactory.getConnection().prepareStatement(sql);
                     statement.executeUpdate();
                 } catch (SQLException e) {
-                    System.out.println("Could not truncate " + BAD_IP_TABLE_NAME + e.getMessage());
+                    System.out.println("Could not truncate " + BAD_IP_TABLE_NAME + e.getMessage());   // TODO: report exception properly (Illegal State)
                 }
                 for (String key : result.getBadIp().keySet()) {
                     int value = result.getBadIp().get(key);
@@ -81,7 +81,7 @@ public class ParserHomework {
                         statement.setString(5, "Above the threshold (" + config.getThreshold() + ")");
                         statement.executeUpdate();
                     } catch (SQLException e) {
-                        System.out.println("Could not insert into " + BAD_IP_TABLE_NAME + " " + e.getMessage());
+                        System.out.println("Could not insert into " + BAD_IP_TABLE_NAME + " " + e.getMessage());   // TODO: report exception properly (Illegal State)
                     }
                 }
                 break;
@@ -108,7 +108,6 @@ public class ParserHomework {
                     Date startDateTime = FORMAT_START_DATE.parse(arg.substring(PARAM_START_DATE.length()));
                     config.setStartDate(startDateTime);
                 } catch (ParseException e) {
-                    //e.printStackTrace();    // TODO IllegalArgumentException
                     throw new IllegalArgumentException("Start Date: Illegal format ", e);
                 }
 
@@ -120,6 +119,10 @@ public class ParserHomework {
                 String substring = arg.substring(PARAM_FILENAME.length());
                 config.setFileName(substring);
             }
+
+            // TODO: else if... outputType
+
+            // TODO: else if... outputFile
         }
         return config;
     }
