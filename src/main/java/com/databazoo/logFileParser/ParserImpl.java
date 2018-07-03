@@ -100,10 +100,11 @@ public class ParserImpl implements IParser {
         String requestIP = strings[1];
         //System.out.println("time: " + requestTime + " IP: " + requestIP);
 
-        String sql = "INSERT INTO " + LOG_TABLE_NAME + " (requestTime, requestIp) VALUES (?, ?)";
+        String sql = "INSERT INTO " + LOG_TABLE_NAME + " (id, requestTime, requestIp) VALUES (?, ?, ?)";
         PreparedStatement statement = DbFactory.getConnection().prepareStatement(sql);
-        statement.setLong(1, requestTime.getTime());
-        statement.setString(2, requestIP);
+        statement.setInt(1, 0);
+        statement.setLong(2, requestTime.getTime());
+        statement.setString(3, requestIP);
         statement.executeUpdate();
     }
 

@@ -47,7 +47,7 @@ public class ParserHomework {
                         output.write(buffer, 0, buffer.length);
                     }
                 } catch (IOException e) {
-                    System.out.println(BAD_IP_FILE_NAME + ": a write error has occurred. " + e.getMessage());   // TODO: report exception properly (Illegal State)
+                    throw new IllegalStateException(BAD_IP_FILE_NAME + " A write error has occurred.", e);
                 }
                 break;
             case console:
@@ -65,23 +65,24 @@ public class ParserHomework {
                     PreparedStatement statement = DbFactory.getConnection().prepareStatement(sql);
                     statement.executeUpdate();
                 } catch (SQLException e) {
-                    System.out.println("Could not truncate " + BAD_IP_TABLE_NAME + e.getMessage());   // TODO: report exception properly (Illegal State)
+                    throw new IllegalStateException("Could not truncate " + BAD_IP_TABLE_NAME, e);
                 }
                 for (String key : result.getBadIp().keySet()) {
                     int value = result.getBadIp().get(key);
                     // System.out.println(key + ": " + value);
                     Date date = new Date();
-                    String sql = "INSERT INTO " + BAD_IP_TABLE_NAME + " (ip, cntr, duration, bantime, comment) VALUES (?, ?, ?, ?, ?)";
+                    String sql = "INSERT INTO " + BAD_IP_TABLE_NAME + " (id, ip, cntr, duration, banTime, comment) VALUES (?, ?, ?, ?, ?, ?)";
                     try {
                         PreparedStatement statement = DbFactory.getConnection().prepareStatement(sql);
-                        statement.setString(1, key);
-                        statement.setInt(2, value);
-                        statement.setString(3, String.valueOf(config.getDuration()));
-                        statement.setLong(4, date.getTime());
-                        statement.setString(5, "Above the threshold (" + config.getThreshold() + ")");
+                        statement.setInt(1, 0);
+                        statement.setString(2, key);
+                        statement.setInt(3, value);
+                        statement.setString(4, String.valueOf(config.getDuration()));
+                        statement.setLong(5, date.getTime());
+                        statement.setString(6, "Above the threshold (" + config.getThreshold() + ")");
                         statement.executeUpdate();
                     } catch (SQLException e) {
-                        System.out.println("Could not insert into " + BAD_IP_TABLE_NAME + " " + e.getMessage());   // TODO: report exception properly (Illegal State)
+                        throw new IllegalStateException("Could not insert into " + BAD_IP_TABLE_NAME, e);
                     }
                 }
                 break;
