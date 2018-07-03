@@ -4,6 +4,7 @@ import com.databazoo.logFileParser.IParser;
 import com.databazoo.logFileParser.ParserImpl;
 import com.databazoo.util.DbFactory;
 import com.databazoo.util.Duration;
+import com.databazoo.util.OutputType;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,12 +20,13 @@ public class ParserHomework {
     private static final String PARAM_START_DATE = "--startDate=";
     private static final String PARAM_THRESHOLD = "--threshold=";
     private static final String PARAM_FILENAME = "--accesslog=";
+    private static final String PARAM_OUTPUT_TYPE = "--outputType=";
 
     // 2017-01-01.13:00:00
     private static final SimpleDateFormat FORMAT_START_DATE = new SimpleDateFormat("yyyy-MM-dd.HH:mm:ss");
 
     private static final String BAD_IP_TABLE_NAME = "badiplist";
-    private static final String BAD_IP_FILE_NAME = "D://badiplist.txt"; // TODO: use relative path. Or even better, move to config.
+    private static final String BAD_IP_FILE_NAME = "badiplist.txt"; // TODO: use relative path. Or even better, move to config.
     private static final String DELIMITER = "\t";
 
     public static void main(String[] args) {
@@ -53,6 +55,8 @@ public class ParserHomework {
             case console:
                 for (String key : result.getBadIp().keySet()) {
                     int value = result.getBadIp().get(key);
+                    System.out.println(key + DELIMITER + value + DELIMITER + String.valueOf(config.getDuration())
+                            + DELIMITER + "Above the threshold (" + config.getThreshold() + ")");
                 }
 
 //                for (Map.Entry<String, Integer> badIpLine : result.getBadIp().entrySet()) {
@@ -121,7 +125,10 @@ public class ParserHomework {
                 config.setFileName(substring);
             }
 
-            // TODO: else if... outputType
+            else if (arg.startsWith(PARAM_OUTPUT_TYPE)) {
+                String substring = arg.substring(PARAM_OUTPUT_TYPE.length());
+                config.setOutputType(OutputType.valueOf(substring));
+            }
 
             // TODO: else if... outputFile
         }
