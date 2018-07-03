@@ -14,13 +14,16 @@ public class ParserHomeworkTest {
         //ParserHomework.main(new String[]{"--startDate=2017-01-01.13:00:00", "--duration=daily", "--threshold=250",
         //        "--accesslog=E:\\git\\ParserHomework\\src\\test\\resources\\access.log"});
         ParserHomework.main(new String[]{"--startDate=2017-01-01.13:00:00", "--duration=daily", "--threshold=250",
-                "--accesslog=E:\\git\\ParserHomework\\src\\test\\resources\\access.log", "--outputType=console"});
+                "--accesslog=E:\\git\\ParserHomework\\src\\test\\resources\\access.log", "--outputType=file",
+                "--outputFile=myBadIpList.txt"});
     }
 
     @Test
     public void parseArgs() {
+        //String[] args = {"--startDate=2017-01-01.13:00:00", "--duration=daily", "--threshold=250",
+        //        "--accesslog=/path/to/file", "--outputType=file"};
         String[] args = {"--startDate=2017-01-01.13:00:00", "--duration=daily", "--threshold=250",
-                "--accesslog=/path/to/file", "--outputType=file"};
+                "--accesslog=/path/to/file", "--outputType=file", "--outputFile=myBadIpList.txt"};
 
         ParserHomework parserHomework = new ParserHomework();
         ParserConfig config = parserHomework.parseArgs(args);
@@ -29,7 +32,6 @@ public class ParserHomeworkTest {
         assertEquals("Sun Jan 01 13:00:00 CET 2017", config.getStartDate().toString());
         assertEquals(250, config.getThreshold());
         assertEquals("/path/to/file", config.getFileName());
-        // ? outputType
     }
 
     @Test

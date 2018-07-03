@@ -11,6 +11,7 @@ public class ParserConfig {
     private Date startDate;
     private int threshold;
     private OutputType outputType = OutputType.console;
+    private String outputFileName;
 
     public String getFileName() {
         return fileName;
@@ -50,5 +51,13 @@ public class ParserConfig {
 
     public void setOutputType(OutputType outputType) {
         this.outputType = outputType;
+    }
+
+    public String getOutputFileName() {
+        return outputFileName;
+    }
+
+    public void setOutputFileName(String outputFileName) {
+        this.outputFileName = outputFileName;
     }
 }
