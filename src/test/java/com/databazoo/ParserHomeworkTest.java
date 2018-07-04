@@ -1,6 +1,7 @@
 package com.databazoo;
 
 import com.databazoo.util.Duration;
+import com.databazoo.util.OutputType;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -32,6 +33,8 @@ public class ParserHomeworkTest {
         assertEquals("Sun Jan 01 13:00:00 CET 2017", config.getStartDate().toString());
         assertEquals(250, config.getThreshold());
         assertEquals("/path/to/file", config.getFileName());
+        assertEquals(OutputType.file, config.getOutputType());
+        assertEquals("myBadIpList.txt", config.getOutputFileName());
     }
 
     @Test
